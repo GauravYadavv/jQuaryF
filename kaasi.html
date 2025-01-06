@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kaasi || </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<style>
+    .apna-li {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-right: 20px;
+        font-weight: 500;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+
+    }
+
+    ::selection {
+        color: #fff;
+        background: #007bff;
+    }
+
+    body {
+        /* padding: 10px; */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+
+    }
+
+    .wrapper {
+        max-width: 1100px;
+    }
+
+    .gallery {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .gallery .image {
+        padding: 7px;
+        width: calc(100% / 3);
+    }
+
+    .gallery .image span {
+        display: flex;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .gallery .image img {
+        width: 100%;
+        vertical-align: middle;
+        transition: all 0.3s ease;
+    }
+
+    .gallery .image:hover img {
+        transform: scale(1.1);
+
+    }
+
+    .preview-box {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.9);
+        background: #fff;
+        max-width: 700px;
+        width: 100%;
+        z-index: 5;
+        opacity: 0;
+        pointer-events: none;
+        border-radius: 3px;
+        padding: 0 5px 5px 5px;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .preview-box.show {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translate(-50%, -50%) scale(1);
+        transition: all 0.3s ease;
+    }
+
+    .preview-box .details {
+        display: flex;
+        align-items: center;
+        padding: 12px 15px 12px 10px;
+        justify-content: space-between;
+    }
+
+    .preview-box .details .title {
+        display: flex;
+        font-size: 18px;
+        font-weight: 400;
+    }
+
+    .details .title p {
+        margin: 0 5px;
+    }
+
+    .details .title p.current-img {
+        font-weight: 500;
+    }
+
+    .details .icon {
+        color: #007bff;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    .preview-box .image-box {
+        display: flex;
+        width: 100%;
+        position: relative;
+    }
+
+    .image-box .slide {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #fff;
+        font-size: 30px;
+        cursor: pointer;
+        height: 50px;
+        width: 60px;
+        line-height: 50px;
+        text-align: center;
+        border-radius: 3px;
+    }
+
+    .slide.prev {
+        left: 0px;
+    }
+
+    .slide.next {
+        right: 0px;
+    }
+
+    .image-box img {
+        width: 100%;
+        border-radius: 0 0 3px 3px;
+    }
+
+    .shadow {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        z-index: 2;
+        display: none;
+        background: rgba(0, 0, 0, 0.45);
+    }
+
+    @media(max-width: 1000px) {
+        .gallery .image {
+            width: calc(100% / 2);
+        }
+    }
+
+    @media(max-width: 600px) {
+        .gallery .image {
+            width: 100%;
+            padding: 4px;
+        }
+    }
+</style>
+
+<body>
+    <div class="container-fluid">
+        <div class="row p-0 ">
+            <div class="col-sm-12 p-0">
+                <div class="m-0 p-0">
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
+                        <div class="container-fluid bg-dark">
+                            <a class="navbar-brand" href="#">
+                                <i class="fa-solid fa-map-location fa-lg text-light pe-5"></i>
+                            </a>
+                            <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon bg-light"></span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                    <li class="nav-item apna-li">
+                                        <a class="nav-link" aria-current="page" href="./index.html"
+                                            style="color: orangered;">HOME</a>
+                                    </li>
+                                    <li class="nav-item apna-li">
+                                        <a class="nav-link" href="./aboutus.html" style="color: orangered;">ABOUT US</a>
+
+                                    <li class="nav-item dropdown apna-li">
+                                        <a class="nav-link" href="#" id="navbarDropdown" role="button"
+                                            data-bs-toggle="dropdown" aria-expanded="false" style="color: orangered;">
+                                            CITIES
+                                        </a>
+                                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <li><a class="dropdown-item" href="#">Kaasi</a></li>
+                                            <li><a class="dropdown-item" href="./praygraj.html">Praygraj</a></li>
+                                            <li><a class="dropdown-item" href="./ayodhya.html">Ayodhya</a></li>
+                                            <li><a class="dropdown-item" href="./mathura.html">Mathura</a></li>
+                                            <li><a class="dropdown-item" href="./chitakoot.html">Chitrakoot</a></li>
+                                            <li><a class="dropdown-item" href="./lucknow.html">Lucknow</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item apna-li">
+                                        <a class="nav-link" href="./gallery.html" style="color: orangered;">GRALLERY</a>
+                                    </li>
+                                    <li class="nav-item apna-li">
+                                        <a class="nav-link" href="#" style="color: orangered;">TRIP-BOOK</a>
+                                    </li>
+                                    <li class="nav-item apna-li">
+                                        <a class="nav-link" href="#" style="color: orangered;">HOTEL-BOOK</a>
+                                    </li>
+                                    <li class="nav-item apna-li">
+                                        <a class="nav-link" href="#" style="color: orangered;">CAR-BOOK</a>
+                                    </li>
+                                    <li class="nav-item apna-li">
+                                        <a class="nav-link" href="#" style="color: orangered;">LOGIN</a>
+                                    </li>
+                                    <li class="nav-item apna-li">
+                                        <a class="nav-link" href="contact.html" style="color: orangered;">CONTACT</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <div class="row p-5">
+            <div class="col-sm-4 ">
+                <img style="border-radius: 50%;" class="mt-5" src="./images/img7.jpg" width="100%" height="350px">
+            </div>
+            <div class="col-sm-8 mb-3">
+                <div>
+                    <h5 style="color: orangered;">History of Kaasi :</h5>
+                    <p>
+                        As per the Shiva Purana, Brahma (the Hindu God of creation) and Vishnu (the Hindu God of
+                        preservation) once had an argument about supremacy.[4] To test their powers, Shiva pierced the
+                        three mystical states of the earth as a huge, endless pillar of light, known as a Jyotirlinga.
+                        At first, Vishnu incarnated as a boar (Varaha) to dig the earth to search for the base of the
+                        pillar, while Brahma, in the form of a swan, searched the sky to find the top of the pillar.
+                        Brahma falsely claimed to have found the top of the pillar. However, Vishnu confessed modestly
+                        about his failure to locate the base. Shiva cut off Brahma's fifth head as a punishment and
+                        cursed Brahma, saying that he would no longer be worshipped. Because Vishnu was honest, he would
+                        be worshipped just as much as Shiva and have his own temples for all time.[5]
+                        The Jyothirlinga is an ancient axis mundi symbol representing the supremely formless (nirguna)
+                        reality at the core of creation, out of which the form (saguna) of Shiva appears. The
+                        Jyothirlinga shrines are thus places where Shiva appeared as a fiery column of light.[6][7]
+                        There are 64 forms of Shiva, not to be confused with Jyotirlingas. Each of the twelve
+                        Jyotirlinga sites takes the name of the presiding deity; each is considered a different
+                        manifestation of Shiva.[8] At all these sites, the primary image is the lingam representing the
+                        beginningless and endless Stambha pillar, symbolising the infinite nature of Shiva.[8][9][10]
+                        The twelve jyothirlinga are Somnath in Gujarat, Mallikarjuna at Srisailam in Andhra Pradesh,
+                        Mahakaleswar at Ujjain in Madhya Pradesh, Omkareshwar in Madhya Pradesh, Kedarnath in
+                        Uttarakhand, Bhimashankar in Maharashtra, Viswanath at Varanasi in Uttar Pradesh, Triambakeshwar
+                        in Maharashtra, Vaidyanath Jyotirlinga, Deogarh in Deoghar, Jharkhand, Nageswar at Dwarka in
+                        Gujarat, Rameshwar at Rameswaram in Tamil Nadu and Grishneshwar at Aurangabad in
+                        Maharashtra.[4][11]
+                        The Manikarnika Ghat is on the bank of the river Ganges. This holy site is very near the Kashi
+                        Vishwanath Temple and is named Shakti Pitha, a revered place of worship for the Shaktism sect.
+                        The Daksha Yaga, an important Shaivite literature, also mentions the origin of Shakti
+                        Peethas.[12]
+                        Hindu scriptures describes Vishweshara as the sacred deity of Varanasi, holding the position of
+                        king over all the other deities as well as over all the inhabitants of the city and the extended
+                        circuit of the Panchkosi, an area (the sacred boundary of Varanasi) spreading over 50 miles
+                    </p>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <h1 class="mt-3" style="text-align: center;">Image <span style="color: orangered;">Gallery</span></h1>
+                <br>
+                <div class="gallery p-5 pb-0 ">
+                    <!-- Add your gallery content as before -->
+                    <div class="image"><span><img src="./images/img1.jpg" width="100%" height="300px" alt=""></span>
+                    </div>
+                    <div class="image"><span><img src="./images/img2.jpg" width="100%" height="300px" alt=""></span>
+                    </div>
+                    <div class="image"><span><img src="./images/img3.jpg" width="100%" height="300px" alt=""></span>
+                    </div>
+                    <div class="image"><span><img src="./images/img4.jpg" width="100%" height="300px" alt=""></span>
+                    </div>
+                    <div class="image"><span><img src="./images/img5.jpg" width="100%" height="300px" alt=""></span>
+                    </div>
+                    <div class="image"><span><img src="./images/img6.jpg" width="100%" height="300px" alt=""></span>
+                    </div>
+                    <div class="image"><span><img src="./images/img7.jpg" width="100%" height="300px" alt=""></span>
+                    </div>
+                    <div class="image"><span><img src="./images/img8.jpg" width="100%" height="300px" alt=""></span>
+                    </div>
+                    <div class="image"><span><img src="./images/img9.jpg" width="100%" height="300px" alt=""></span>
+                    </div>
+                    <div class="image"><span><img src="./images/img10.jpg" width="100%" height="300px" alt=""></span>
+                    </div>
+                    <div class="image"><span><img src="./images/img11.jpg" width="100%" height="300px" alt=""></span>
+                    </div>
+                    <div class="image"><span><img src="./images/img12.jpg" width="100%" height="300px" alt=""></span>
+                    </div>
+                </div>
+            </div>
+            <div class="preview-box">
+                <div class="details">
+                    <span class="title">Image <p class="current-img"></p> of <p class="total-img"></p></span>
+                    <span class="icon fas fa-times"></span>
+                </div>
+                <div class="image-box">
+                    <div class="slide prev"><i class="fas fa-angle-left"></i></div>
+                    <div class="slide next"><i class="fas fa-angle-right"></i></div>
+                    <img src="" height="350px" alt="">
+                </div>
+            </div>
+            <div class="shadow"></div>
+        </div>
+        <div class="row bg-dark p-0"> <!--start footer-->
+            <div class="col-sm-3 p-5 text-center mt-2 ">
+                <img src="./images/up.png" height="200px" width="200px">
+            </div>
+            <div class="col-sm-2">
+                <h5 class="mt-3"
+                    style=" text-align: center; color: orangered; border-bottom: 2px solid white; padding-bottom: 10px;">
+                    LINKS</h5>
+                <ul style="list-style-type:none;">
+                    <a href="#" style="text-decoration: none; color:white; font-weight: 500; ">
+                        <li style="border-bottom: 1px solid white; padding-bottom: 5px; "> &rightarrow;&nbsp;HOME</li>
+                    </a>
+                    <a href="#" style="text-decoration: none; color:white; font-weight: 500; ">
+                        <li style="border-bottom: 1px solid white; padding-bottom: 5px; "> &rightarrow;&nbsp;ABOUT US
+                        </li>
+                    </a>
+                    <a href="#" style="text-decoration: none; color:white; font-weight: 500; ">
+                        <li style="border-bottom: 1px solid white; padding-bottom: 5px; ">&rightarrow;&nbsp; CITIES</li>
+                    </a>
+                    <a href="#" style="text-decoration: none; color:white; font-weight: 500; ">
+                        <li style="border-bottom: 1px solid white; padding-bottom: 5px; ">&rightarrow;&nbsp; GRALLERY
+                        </li>
+                    </a>
+                    <a href="#" style="text-decoration: none; color:white; font-weight: 500; ">
+                        <li style="border-bottom: 1px solid white; padding-bottom: 5px; ">&rightarrow;&nbsp; TRIP-BOOK
+                        </li>
+                    </a>
+                    <a href="#" style="text-decoration: none; color:white; font-weight: 500; ">
+                        <li style="border-bottom: 1px solid white; padding-bottom: 5px; "> &rightarrow;&nbsp;HOTEL-BOOK
+                        </li>
+                    </a>
+                    <a href="#" style="text-decoration: none; color:white; font-weight: 500; ">
+                        <li style="border-bottom: 1px solid white; padding-bottom: 5px; "> &rightarrow;&nbsp;CAR-BOOK
+                        </li>
+                    </a>
+                    <a href="#" style="text-decoration: none; color:white; font-weight: 500; ">
+                        <li style="border-bottom: 1px solid white; padding-bottom: 5px; "> &rightarrow;&nbsp;LOGIN</li>
+                    </a>
+            </div>
+            <div class="col-sm-3 mt-3">
+                <h5
+                    style=" text-align: center; color: orangered; border-bottom: 2px solid white; padding-bottom: 10px;">
+                    DETAILS</h5>
+                <div>
+                    <p class="text-center"><i class="fa-solid fa-phone text-light"></i><label
+                            style="color: white;">&nbsp;&nbsp;+91-9876543231 &nbsp;||&nbsp;+91-8765453423</label></p>
+                    <p class="text-center"><i class="fa-solid fa-envelope text-light"></i><label
+                            style="color: white;">&nbsp;abc@gmail.com</label></p>
+                    <p class="text-center"><span class="text-light">Address : Ayodhya Uttar Pradesh</span></p>
+                    <div class="mb-3 text-center">
+                        <span class="m-2 mt-0"><i class="fa-brands fa-facebook fa-2xl text-light"></i></span>
+                        <span class="m-2"><i class="fa-brands fa-square-instagram fa-2xl text-light"></i></span>
+                        <span class="m-2"><i class="fa-brands fa-square-twitter fa-2xl text-light"></i></span>
+                        <span class="m-2"><i class="fa-brands fa-square-x-twitter fa-2xl text-light"></i></span>
+                        <span class="m-2"><i class="fa-solid fa-envelope fa-2xl text-light"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="mt-3">
+                    <h5
+                        style="text-align: center; color: orangered; border-bottom: 2px solid white; padding-bottom: 10px;">
+                        OUR NEWSLETTER</h5>
+                    <p class="text-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos ipsa magni
+                        dolore modi rerum eligendi
+                        facere culpa repellendus voluptates eum in adipisci veritatis molestiae quasi sapiente, quidem
+                        totam? Omnis,
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quisquam, eius nam. Modi placeat
+                        voluptatibus
+                        ullam accusantium maxime deserunt quos sint repudiandae consequuntur delectus! Illo nisi facilis
+                        inventore odio error eveniet nihil.</p>
+                    <div class="text-center pb-1"><input class="p-1" type="email" style="border: none;"
+                            placeholder="enter email" /><button class="p-1"
+                            style="border: none; background-color: orangered; color: white;">Subscribe</button></div>
+                </div>
+            </div>
+        </div>
+        <div class="row ">
+            <div style="border: 1px solid white;" class="col-sm-12 bg-dark text-light text-center p-3 ">
+                &copy;2018- 2023 Copyright to Kamadgiri Software Solutions Private Limited. All Rights Reserved.
+            </div> <!--end footer-->
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
+        <script>
+            // jQuery code
+            $(document).ready(function () {
+                const gallery = $(".image");
+                const previewBox = $(".preview-box");
+                const previewImg = previewBox.find("img");
+                const closeIcon = previewBox.find(".icon");
+                const currentImg = previewBox.find(".current-img");
+                const totalImg = previewBox.find(".total-img");
+                const shadow = $(".shadow");
+
+                gallery.each(function (i) {
+                    totalImg.text(gallery.length);
+                    let newIndex = i;
+                    let clickedImgIndex;
+
+                    $(this).on("click", function () {
+                        clickedImgIndex = i;
+                        function preview() {
+                            currentImg.text(newIndex + 1);
+                            let imageURL = gallery.eq(newIndex).find("img").attr("src");
+                            previewImg.attr("src", imageURL);
+                        }
+                        preview();
+
+                        const prevBtn = $(".prev");
+                        const nextBtn = $(".next");
+
+                        if (newIndex === 0) {
+                            prevBtn.hide();
+                        }
+
+                        if (newIndex >= gallery.length - 1) {
+                            nextBtn.hide();
+                        }
+
+                        prevBtn.on("click", function () {
+                            newIndex--;
+                            if (newIndex === 0) {
+                                preview();
+                                prevBtn.hide();
+                            } else {
+                                preview();
+                                nextBtn.show();
+                            }
+                        });
+
+                        nextBtn.on("click", function () {
+                            newIndex++;
+                            if (newIndex >= gallery.length + 1) {
+                                preview();
+                                nextBtn.hide();
+                            } else {
+                                preview();
+                                prevBtn.show();
+                            }
+                        });
+
+                        $("body").css("overflow", "hidden");
+                        previewBox.addClass("show");
+                        shadow.show();
+
+                        closeIcon.on("click", function () {
+                            newIndex = clickedImgIndex;
+                            prevBtn.show();
+                            nextBtn.show();
+                            previewBox.removeClass("show");
+                            shadow.hide();
+                            $("body").css("overflow", "scroll");
+                        });
+                    });
+                });
+            });
+        </script>
+</body>
+
+</html>

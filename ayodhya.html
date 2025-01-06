@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" 
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+            text-transform: capitalize;
+            transition: all .2s cubic-bezier(.34, 1.12, .68, 1.31);
+        }
+
+        .gallery {
+            min-height: 100vh;
+            /* background: skyblue; */
+            padding-bottom: 100px;
+        }
+
+        .gallery .controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 20px 0;
+            list-style: none;
+        }
+
+        .gallery .controls .buttons {
+            height: 40px;
+            width: 140px;
+            background: #fff;
+            color: #666;
+            font-size: 20px;
+            line-height: 40px;
+            cursor: pointer;
+            margin: 20px;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, .3);
+            text-align: center;
+        }
+
+        .gallery .controls .buttons.active {
+            background: coral;
+            color: #fff;
+        }
+
+        .gallery .image-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .gallery .image-container .image {
+            height: 250px;
+            width: 350px;
+            overflow: hidden;
+            border: 15px solid #fff;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, .3);
+            margin: 20px;
+        }
+
+        .gallery .image-container .image img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .gallery .image-container .image:hover img {
+            transform: scale(1.4);
+        }
+
+        h1 {
+            text-transform: uppercase;
+            font-size: 1.6rem;
+            animation: aagepiche 2s linear infinite;
+            animation-direction: alternate;
+        }
+
+        @keyframes aagepiche {
+            from {
+                padding-left: 100px;
+            }
+
+            to {
+                padding-right: 100px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-sm-12 p-0">
+                <div class="m-0 p-0">
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
+                        <div class="container-fluid bg-dark">
+                            <a class="navbar-brand" href="#">
+                                <i class="fa-solid fa-map-location fa-lg text-light pe-5"></i>
+                            </a>
+                            <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon bg-light"></span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                    <li class="nav-item apna-li">
+                                        <a class="nav-link" aria-current="page" href="./index.html"
+                                            style="color: orangered;">HOME</a>
+                                    </li>
+                                    <li class="nav-item apna-li">
+                                        <a class="nav-link" href="./aboutus.html" style="color: orangered;">ABOUT US</a>
+
+                                    <li class="nav-item dropdown apna-li">
+                                        <a class="nav-link" href="#" id="navbarDropdown" role="button"
+                                            data-bs-toggle="dropdown" aria-expanded="false" style="color: orangered;">
+                                            CITIES
+                                        </a>
+                                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <li><a class="dropdown-item" href="./kaasi.html">Kaasi</a></li>
+                                            <li><a class="dropdown-item" href="./praygraj.html">Praygraj</a></li>
+                                            <li><a class="dropdown-item" href="#">Ayodhya</a></li>
+                                            <li><a class="dropdown-item" href="./mathura.html">Mathura</a></li>
+                                            <li><a class="dropdown-item" href="./chitakoot.html">Chitrakoot</a></li>
+                                            <li><a class="dropdown-item" href="./lucknow.html">Lucknow</a></li>
+
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item apna-li">
+                                        <a class="nav-link" href="./gallery.html" style="color: orangered;">GRALLERY</a>
+                                    </li>
+                                    <li class="nav-item apna-li">
+                                        <a class="nav-link" href="#" style="color: orangered;">TRIP-BOOK</a>
+                                    </li>
+                                    <li class="nav-item apna-li">
+                                        <a class="nav-link" href="#" style="color: orangered;">HOTEL-BOOK</a>
+                                    </li>
+                                    <li class="nav-item apna-li">
+                                        <a class="nav-link" href="#" style="color: orangered;">CAR-BOOK</a>
+                                    </li>
+                                    <li class="nav-item apna-li">
+                                        <a class="nav-link" href="#" style="color: orangered;">LOGIN</a>
+                                    </li>
+                                    <li class="nav-item apna-li">
+                                        <a class="nav-link" href="./contact.html" style="color: orangered;">CONTACT</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5 mb-5 ">
+            <div class="col-sm-4 ">
+                <img style="border-radius: 50%;" class="mt-5" src="./images/ram1.jfif" width="100%" height="350px">
+            </div>
+            <div class="col-sm-8 mb-3">
+                <div>
+                    <h5 style="color: orangered;">History of Ayodhya :</h5>
+                    <p>
+                        The word "Ayodhya" is a regularly formed derivation of the Sanskrit verb yudh, "to fight, to
+                        wage war".[11] Yodhya is the future passive participle, meaning "to be fought"; the initial a is
+                        the negative prefix; the whole, therefore, means "not to be fought" or, more idiomatically in
+                        English, "invincible".[12] This meaning is attested by the Atharvaveda, which uses it to refer
+                        to the unconquerable city of gods.[13] The ninth century Jain poem Adi Purana also states that
+                        Ayodhya "does not exist by name alone but by the merit" of being unconquerable by enemies.
+                        Satyopakhyana interprets the word slightly differently, stating that it means "that which cannot
+                        be conquered by sins" (instead of enemies).[14]
+                        "Saketa" is the older name for the city, attested in Sanskrit, Jain, Buddhist, Greek and Chinese
+                        sources.[15] According to Vaman Shivram Apte, the word "Saketa" is derived from the Sanskrit
+                        words Saha (with) and Aketen (houses or buildings). The Adi Purana states that Ayodhya is called
+                        Saketa "because of its magnificent buildings which had significant banners as their arms".[16]
+                        According to Hans T. Bakker, the word may be derived from the roots sa and ketu ("with banner");
+                        the variant name saketu is attested in the Vishnu Purana.[17]
+                        The older name in English was "Oudh" or "Oude", and the princely state it was the capital of
+                        until 1856 is still known as Oudh State.[citation needed]
+                        Ayodhya was stated to be the capital of the ancient Kosala kingdom in the Ramayana. Hence it was
+                        also referred to as "Kosala". The Adi Purana states that Ayodhya is famous as su-kośala "because
+                        of its prosperity and good skill".[16]
+                        The cities of Ayutthaya (Thailand), and Yogyakarta (Indonesia), are named after Ayodhya.les
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 p-0">
+                <div class="gallery">
+                    <ul class="controls">
+                        <li class="buttons active" data-filter="all">all</li>
+                        <li class="buttons" data-filter="ice-cream">God</li>
+                        <li class="buttons" data-filter="chocolate">Rode</li>
+                        <li class="buttons" data-filter="cake">Hotel</li>
+                        <li class="buttons" data-filter="juice">river</li>
+                        <li class="buttons" data-filter="sandwich">Tample</li>
+                    </ul>
+                    <div class="image-container">
+                        <a href="d:\gellery image\nnnnn.html" class="image ice-cream">
+                            <img src="./images/go1.jfif" alt="">
+                            <a href="images/ice-cream3.jpg" class="image ice-cream">
+                                <img src="./images/66.jpeg" alt="">
+                            </a>
+                            <a href="images/ice-cream3.jpg" class="image ice-cream">
+                                <img src="./images/go2.jfif" alt="">
+                            </a>
+                            <a href="images/ice-cream3.jpg" class="image ice-cream">
+                                <img src="./images/111.avif" alt="">
+                            </a>
+
+                            <a href="images/ice-cream3.jpg" class="image ice-cream">
+                                <img src="./images/44.jpeg" alt="">
+                            </a>
+                            <a href="images/ice-cream3.jpg" class="image ice-cream">
+                                <img src="./images/55.jpeg" alt="./">
+                            </a>
+                            <a href="images/ice-cream3.jpg" class="image ice-cream">
+                                <img src="./images/111.avif" alt="">
+                            </a>
+                            <a href="images/ice-cream3.jpg" class="image ice-cream">
+                                <img src="./images/22.jpeg" alt="">
+                            </a>
+
+                            <a href="images/chocolate2.jpg" class="image chocolate">
+                                <img src="./images/rode7.jpeg" alt="">
+
+                            </a>
+                            <a href="images/chocolate2.jpg" class="image chocolate">
+                                <img src="./images/rode1.jfif" alt="">
+                            </a>
+                            <a href="images/chocolate2.jpg" class="image chocolate">
+                                <img src="./images/rode2.jfif" alt="">
+
+                            </a>
+                            <a href="images/chocolate2.jpg" class="image chocolate">
+                                <img src="./images/rode3.jfif" alt="">
+
+                            </a>
+                            <a href="images/chocolate2.jpg" class="image chocolate">
+                                <img src="./images/rode4.jfif" alt="">
+
+                            </a>
+                            <a href="images/chocolate2.jpg" class="image chocolate">
+                                <img src="./images/rode5.jfif" alt="">
+
+                            </a>
+                            <a href="images/chocolate2.jpg" class="image chocolate">
+                                <img src="./images/rode6.jfif" alt="">
+
+                            </a>
+                            <a href="images/chocolate2.jpg" class="image chocolate">
+                                <img src="./images/rode8.jpeg" alt="">
+
+                            </a>
+
+                            <a href="images/cake1.jpg" class="image cake">
+                                <img src="./images/ho1.jpeg" alt="">
+                            </a>
+                            <a href="images/cake2.jpg" class="image cake">
+                                <img src="./images/ho22.jpeg" alt="">
+                            </a>
+                            <a href="images/cake3.jpg" class="image cake">
+                                <img src="./images/ho33.jpeg" alt="">
+                            </a>
+                            <a href="images/cake4.jpg" class="image cake">
+                                <img src="./images/ho44.jpeg" alt="">
+                                <a href="images/cake4.jpg" class="image cake">
+                                    <img src="./images/ho55.jpeg" alt="">
+                                    <a href="images/cake4.jpg" class="image cake">
+                                        <img src="./images/ho66.jpeg" alt="">
+                                        <a href="images/cake4.jpg" class="image cake">
+                                            <img src="./images/ho77.jpeg" alt="">
+                                            <a href="images/cake4.jpg" class="image cake">
+                                                <img src="./images/ho88.jpeg" alt="">
+                                                <a href="images/cake4.jpg" class="image cake">
+                                                    <img src="./images/ho99.jpeg" alt="">
+
+                                                </a>
+                                                <a href="images/cake5.jpg" class="image cake">
+                                                    <img src="./images/ho55.jpeg" alt="">
+                                                </a>
+                                                <a href="images/juice1.jpg" class="image juice">
+                                                    <img src="./images/q7.jpeg" alt="">
+                                                </a>
+                                                <a href="images/juice2.jpg" class="image juice">
+                                                    <img src="./images/ro7.jfif" alt="">
+                                                </a>
+                                                <a href="images/juice3.jpg" class="image juice">
+                                                    <img src="./images/ro2.jfif" alt="">
+                                                    <a href="images/juice2.jpg" class="image juice">
+                                                        <img src="./images/q1.jpeg" alt="">
+                                                        <a href="images/juice2.jpg" class="image juice">
+                                                            <img src="./images/q2.jpeg" alt="">
+                                                            <a href="images/juice2.jpg" class="image juice">
+                                                                <img src="./images/q3.jpeg" alt="">
+                                                                <a href="images/juice2.jpg" class="image juice">
+                                                                    <img src="./images/q4.jpeg" alt="">
+                                                                    <a href="images/juice2.jpg" class="image juice">
+                                                                        <img src="./images/q5.jpeg" alt="">
+                                                                        <a href="images/juice2.jpg" class="image juice">
+                                                                            <img src="./images/q6.jpeg" alt="">
+                                                                        </a>
+                                                                        <a href="images/sandwich1.jpg"
+                                                                            class="image sandwich">
+                                                                            <img src="./images/ya2.jfif" alt="">
+                                                                        </a>
+                                                                        <a href="images/sandwich2.jpg"
+                                                                            class="image sandwich">
+                                                                            <img src="./images/xxx1.jfif" alt="">
+                                                                        </a>
+                                                                        <a href="images/sandwich3.jpg"
+                                                                            class="image sandwich">
+                                                                            <img src="./images/ram1.jfif" alt="">
+                                                                        </a>
+                                                                        <a href="images/sandwich4.jpg"
+                                                                            class="image sandwich">
+                                                                            <img src="./images/PREM.jpg" alt="">
+                                                                        </a>
+                                                                        <a href="images/sandwich4.jpg"
+                                                                            class="image sandwich">
+                                                                            <img src="./images/Doctors Group Recommends Vegan Diet in India (1).jpeg"
+                                                                                alt="">
+                                                                        </a>
+                                                                        <a href="images/sandwich4.jpg"
+                                                                            class="image sandwich">
+                                                                            <img src="./images/ayodthya1.jpeg" alt="">
+                                                                        </a>
+                                                                        <a href="images/sandwich4.jpg"
+                                                                            class="image sandwich">
+                                                                            <img src="./images/man.jfif" alt="">
+                                                                        </a>
+                                                                        <a href="images/sandwich4.jpg"
+                                                                            class="image sandwich">
+                                                                            <img src="./images/ayodthya.jpeg" alt="">
+                                                                        </a>
+                                                                        <a href="images/sandwich4.jpg"
+                                                                            class="image sandwich">
+                                                                            <img src="./images/ya6.jfif" alt="">
+
+                                                                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row bg-dark"> <!--start footer-->
+            <div class="col-sm-3 p-5 text-center mt-2 ">
+                <img src="images/up.png" height="200px" width="200px" />
+            </div>
+            <div class="col-sm-2">
+                <h5 class="mt-3"
+                    style=" text-align: center; color: orangered; border-bottom: 2px solid white; padding-bottom: 10px;">
+                    LINKS</h5>
+                <ul style="list-style-type:none;">
+                    <a href="#" style="text-decoration: none; color:white; font-weight: 500; ">
+                        <li style="border-bottom: 1px solid white; padding-bottom: 5px; "> &rightarrow;&nbsp;HOME</li>
+                    </a>
+                    <a href="./aboutus.html" style="text-decoration: none; color:white; font-weight: 500; ">
+                        <li style="border-bottom: 1px solid white; padding-bottom: 5px; "> &rightarrow;&nbsp;ABOUT US
+                        </li>
+                    </a>
+                    <a href="#" style="text-decoration: none; color:white; font-weight: 500; ">
+                        <li style="border-bottom: 1px solid white; padding-bottom: 5px; ">&rightarrow;&nbsp; CITIES</li>
+                    </a>
+                    <a href="./gallery.html" style="text-decoration: none; color:white; font-weight: 500; ">
+                        <li style="border-bottom: 1px solid white; padding-bottom: 5px; ">&rightarrow;&nbsp; GRALLERY
+                        </li>
+                    </a>
+                    <a href="#" style="text-decoration: none; color:white; font-weight: 500; ">
+                        <li style="border-bottom: 1px solid white; padding-bottom: 5px; ">&rightarrow;&nbsp; TRIP-BOOK
+                        </li>
+                    </a>
+                    <a href="#" style="text-decoration: none; color:white; font-weight: 500; ">
+                        <li style="border-bottom: 1px solid white; padding-bottom: 5px; "> &rightarrow;&nbsp;HOTEL-BOOK
+                        </li>
+                    </a>
+                    <a href="#" style="text-decoration: none; color:white; font-weight: 500; ">
+                        <li style="border-bottom: 1px solid white; padding-bottom: 5px; "> &rightarrow;&nbsp;CAR-BOOK
+                        </li>
+                    </a>
+                    <a href="#" style="text-decoration: none; color:white; font-weight: 500; ">
+                        <li style="border-bottom: 1px solid white; padding-bottom: 5px; "> &rightarrow;&nbsp;LOGIN</li>
+                    </a>
+            </div>
+            <div class="col-sm-3 mt-3">
+                <h5
+                    style=" text-align: center; color: orangered; border-bottom: 2px solid white; padding-bottom: 10px;">
+                    DETAILS</h5>
+                <div>
+                    <p class="text-center"><i class="fa-solid fa-phone text-light"></i><label
+                            style="color: white;">&nbsp;&nbsp;+91-9876543231 &nbsp;||&nbsp;+91-8765453423</label></p>
+                    <p class="text-center"><i class="fa-solid fa-envelope text-light"></i><label
+                            style="color: white;">&nbsp;abc@gmail.com</label></p>
+                    <p class="text-center"><span class="text-light">Address : Ayodhya Uttar Pradesh</span></p>
+                    <div class="mb-3 text-center">
+                        <span class="m-2 mt-0"><i class="fa-brands fa-facebook fa-2xl text-light"></i></span>
+                        <span class="m-2"><i class="fa-brands fa-square-instagram fa-2xl text-light"></i></span>
+                        <span class="m-2"><i class="fa-brands fa-square-twitter fa-2xl text-light"></i></span>
+                        <span class="m-2"><i class="fa-brands fa-square-x-twitter fa-2xl text-light"></i></span>
+                        <span class="m-2"><i class="fa-solid fa-envelope fa-2xl text-light"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="mt-3">
+                    <h5
+                        style="text-align: center; color: orangered; border-bottom: 2px solid white; padding-bottom: 10px;">
+                        OUR NEWSLETTER</h5>
+                    <p class="text-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos ipsa magni
+                        dolore modi rerum eligendi
+                        facere culpa repellendus voluptates eum in adipisci veritatis molestiae quasi sapiente, quidem
+                        totam? Omnis,
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quisquam, eius nam. Modi placeat
+                        voluptatibus
+                        ullam accusantium maxime deserunt quos sint repudiandae consequuntur delectus! Illo nisi facilis
+                        inventore odio error eveniet nihil.</p>
+
+                    <div class="text-center pb-1"><input class="p-1" type="email" style="border: none;"
+                            placeholder="enter email" /><button class="p-1"
+                            style="border: none; background-color: orangered; color: white;">Subscribe</button></div>
+                </div>
+            </div>
+        </div>
+    </div> <!--end footer-->
+    <div class="row m-0 p-0">
+        <div style="border: 1px solid white;" class="col-sm-12 bg-dark text-light text-center p-3">
+            &copy;2018- 2023 Copyright to Kamadgiri Software Solutions Private Limited. All Rights Reserved.
+        </div>
+    </div>
+    </div>
+    <!-- jQuery CDN link -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    Magnific Popup js CDN link
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.buttons').click(function () {
+
+
+                $(this).addClass('active').siblings().removeClass('active');
+                var filter = $(this).attr('data-filter');
+                if (filter == 'all') {
+                    $('.image').show(400);
+                } else {
+                    $('.image').not('.' + filter).hide(200);
+                    $('.image').filter('.' + filter).show(400);
+                }
+            });
+            $('.gallery').magnificPopup({
+                delegate: 'a',
+                type: 'image',
+                gallery: {
+                    enabled: true
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

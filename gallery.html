@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    
+    .apna-li {
+      padding-top: 10px;
+      padding-bottom: 10px;
+      padding-right: 20px;
+      font-weight: 500;
+    }
+
+    #img-slider {
+      width: 100%;
+      height: 35rem;
+    }
+
+    #right-arrow {
+      position: absolute;
+      top: 350px;
+      right: 10px;
+    }
+
+    #left-arrow {
+      position: absolute;
+      top: 350px;
+      left: 10px;
+    }
+
+    .card:hover {
+      transform: scale(1.100);
+      cursor: zoom-in;
+      transition: all 1.10s;
+    }
+
+    .card-body:hover {
+      color: aqua;
+      background-color: blue;
+    }
+
+    .close-button {
+      position: absolute;
+      top: 20px;
+      right: 50px;
+      font-size: 60px;
+      color: rgb(255, 255, 255);
+      cursor: pointer;
+    }
+
+    .close-button:hover {
+      color: rgb(255, 0, 0);
+    }
+
+    #popupImage {
+      display: block;
+      max-width: 60%;
+      max-height: 60%;
+      margin: 0 auto;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .image-popup-container {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      margin: 0PX;
+      padding-top: 40%;
+    }
+
+    .col-sm-12 {
+      margin-bottom: 0%;
+    }
+
+    .card-title {
+      text-align: center;
+    }
+
+    .prev-button,
+    .next-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 40px;
+      color: white;
+      font-size: 24px;
+      line-height: 40px;
+      cursor: pointer;
+    }
+
+    .prev-button {
+      left: 24%;
+    }
+
+    .next-button {
+      right: 23%;
+    }
+
+    .popup-text {
+      position: absolute;
+      bottom: 10px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: white;
+      font-size: 20px;
+    }
+  </style>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      // Function to show image when clicked
+      $(".card-img-top").click(function () {
+        let imageSrc = $(this).attr("src");
+        $("#popupImage").attr("src", imageSrc);
+        $("#imagePopup").css("display", "block");
+        $("body").css("overflow", "hidden");
+      });
+
+      // Function to hide the image when the close button is clicked
+      $(".close-button").click(function () {
+        $("#imagePopup").css("display", "none");
+        $("body").css("overflow", "auto");
+      });
+
+      // Function to show the previous image
+      $(".prev-button").click(function () {
+        let currentSrc = $("#popupImage").attr("src");
+        let imageList = $(".card-img-top");
+        for (let i = 0; i < imageList.length; i++) {
+          if ($(imageList[i]).attr("src") === currentSrc) {
+            let prevIndex = (i - 1 + imageList.length) % imageList.length;
+            $("#popupImage").attr("src", $(imageList[prevIndex]).attr("src"));
+            break;
+          }
+        }
+      });
+
+      // Function to show the next image
+      $(".next-button").click(function () {
+        let currentSrc = $("#popupImage").attr("src");
+        let imageList = $(".card-img-top");
+        for (let i = 0; i < imageList.length; i++) {
+          if ($(imageList[i]).attr("src") === currentSrc) {
+            let nextIndex = (i + 1) % imageList.length;
+            $("#popupImage").attr("src", $(imageList[nextIndex]).attr("src"));
+            break;
+          }
+        }
+      });
+    });
+  </script>
+
+</head>
+
+<body onload="sliderstart()">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12 p-0">
+        <div class="m-0 p-0">
+          <nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
+            <div class="container-fluid bg-dark">
+              <a class="navbar-brand" href="#">
+                <i class="fa-solid fa-map-location fa-lg text-light pe-5"></i>
+              </a>
+              <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon bg-light"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item apna-li">
+                    <a class="nav-link" aria-current="page" href="./index.html" style="color: orangered;">HOME</a>
+                  </li>
+                  <li class="nav-item apna-li">
+                    <a class="nav-link" href="aboutus.html" style="color: orangered;">ABOUT US</a>
+
+                  <li class="nav-item dropdown apna-li">
+                    <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                      aria-expanded="false" style="color: orangered;">
+                      CITIES
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <li><a class="dropdown-item" href="./kaasi.html">Kaasi</a></li>
+                      <li><a class="dropdown-item" href="./praygraj.html">Praygraj</a></li>
+                      <li><a class="dropdown-item" href="./ayodhya.html">Ayodhya</a></li>
+                      <li><a class="dropdown-item" href="./mathura.html">Mathura</a></li>
+                      <li><a class="dropdown-item" href="./chitakoot.html">Chitrakoot</a></li>
+                      <li><a class="dropdown-item" href="./lucknow.html">Lucknow</a></li>
+                    </ul>
+                  </li>
+                  <li class="nav-item apna-li">
+                    <a class="nav-link" href="#" style="color: orangered;">GRALLERY</a>
+                  </li>
+                  <li class="nav-item apna-li">
+                    <a class="nav-link" href="#" style="color: orangered;">TRIP-BOOK</a>
+                  </li>
+                  <li class="nav-item apna-li">
+                    <a class="nav-link" href="#" style="color: orangered;">HOTEL-BOOK</a>
+                  </li>
+                  <li class="nav-item apna-li">
+                    <a class="nav-link" href="#" style="color: orangered;">CAR-BOOK</a>
+                  </li>
+                  <li class="nav-item apna-li">
+                    <a class="nav-link" href="#" style="color: orangered;">LOGIN</a>
+                  </li>
+                  <li class="nav-item apna-li">
+                    <a class="nav-link" href="./contact.html" style="color: orangered;">CONTACT</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </div>
+      <div class="col-sm-12 p-0">
+        <div style="opacity: 0.7;">
+          <img id="img-slider" src="images/prem1.jpg ">
+          <i id="right-arrow" class="fa-solid fa-arrow-right fa-2xl" style="color: #f04800;"></i>
+          <i id="left-arrow" class="fa-solid fa-arrow-left fa-2xl" style="color: #f04800;"></i>
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <div class="container">
+
+          <div class="row mt-5">
+
+            <h1 style="text-align: center;" class="mb-5">IMAGE <span style="color: orangered;">GALLERY</span></h1>
+
+            <div class="col-sm-12">
+              <div class="row row-cols-1 row-cols-md-3 g-4">
+                <div class="col">
+                  <div class="card">
+                    <img src="./images/Varanasi-the land of spirituality_.jpeg" class="card-img-top" alt="...">
+
+                    <div class="card-body">
+                      <h5 class="card-title">Varanasi-the land of spirituality</h5>
+                      <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
+                        additional.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="card">
+                    <img src="./images/Uttarakhand.jpeg" class="card-img-top" alt="...">
+
+                    <div class="card-body">
+                      <h5 class="card-title">Uttarakhand</h5>
+                      <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
+                        additional.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="card">
+                    <img src="./images/The magical mountain of Arunachal Pradesh.jpeg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">magical mountain of Arunachal Pradesh</h5>
+                      <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
+                        additional.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="card">
+                    <img src="./images/Varanasi-ganga Ghat.jpeg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">Varanasi-ganga Ghat</h5>
+                      <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
+                        additional.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="card">
+                    <img src="./images/Sikkim.jpeg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">Sikkim</h5>
+                      <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
+                        additional.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="card">
+                    <img src="./images/Salong Velly ( Himachal Pradesh).jpeg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">Salong Velly ( Himachal Pradesh)</h5>
+                      <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
+                        additional
+                        .</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="card">
+                    <img src="./images/Mount Everest, Nepal.jpeg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">Mount Everest, Nepal</h5>
+                      <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
+                        additional.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="card">
+                    <img src="./images/india Gate.jpeg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">india Gate</h5>
+                      <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
+                        additional.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="card">
+                    <img src="./images/himanchal.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">himanchal</h5>
+                      <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
+                        additional.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="card">
+                    <img src="./images/Gujarat Tourism.jpeg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">Gujarat Tourism</h5>
+                      <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
+                        additional.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="card">
+                    <img src="./images/Chhattisgarh Tourism.jpeg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">Chhattisgarh Tourism</h5>
+                      <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
+                        additional.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="card">
+                    <img src="./images/Chandrashila Peak Climb.jpeg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">Chandrashila Peak Climb</h5>
+                      <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
+                        additional.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="card">
+                    <img src="./images/bhavitya-indora.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">bhavitya-indora</h5>
+                      <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
+                        additional.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="card">
+                    <img src="./images/aa.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">White and Brown Dome Building</h5>
+                      <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
+                        additional.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="card">
+                    <img src="./images/lotus temple.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">Lotus Temple</h5>
+                      <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
+                        additional.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="image-popup-container" id="imagePopup">
+                  <span class="close-button">×</span>
+                  <img src="" id="popupImage">
+                  <div class="popup-text">Image gallery</div>
+                  <div class="prev-button"><i class="fa-solid fa-chevron-left"></i></div>
+                  <div class="next-button"><i class="fa-solid fa-chevron-right"></i></div>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="image-popup-container" id="imagePopup">
+          <span class="close-button">×</span>
+          <img src="" id="popupImage">
+          <div class="prev-button"><i class="fa-solid fa-chevron-left"></i></div>
+          <div class="next-button"><i class="fa-solid fa-chevron-right"></i></div>
+        </div>
+      </div>
+      <div class="row bg-dark p-0 m-0 mt-3">
+        <div class="col-sm-3 p-5 text-center mt-2 ">
+          <img src="images/up.png" height="200px" width="200px" />
+        </div>
+        <div class="col-sm-2">
+          <h5 class="mt-3"
+            style=" text-align: center; color: orangered; border-bottom: 2px solid white; padding-bottom: 10px;">
+            LINKS</h5>
+          <ul style="list-style-type:none;">
+            <a href="#" style="text-decoration: none; color:white; font-weight: 500; ">
+              <li style="border-bottom: 1px solid white; padding-bottom: 5px; "> &rightarrow;&nbsp;HOME</li>
+            </a>
+            <a href="#" style="text-decoration: none; color:white; font-weight: 500; ">
+              <li style="border-bottom: 1px solid white; padding-bottom: 5px; "> &rightarrow;&nbsp;ABOUT US
+              </li>
+            </a>
+            <a href="#" style="text-decoration: none; color:white; font-weight: 500; ">
+              <li style="border-bottom: 1px solid white; padding-bottom: 5px; ">&rightarrow;&nbsp; CITIES</li>
+            </a>
+            <a href="#" style="text-decoration: none; color:white; font-weight: 500; ">
+              <li style="border-bottom: 1px solid white; padding-bottom: 5px; ">&rightarrow;&nbsp; GRALLERY
+              </li>
+            </a>
+            <a href="#" style="text-decoration: none; color:white; font-weight: 500; ">
+              <li style="border-bottom: 1px solid white; padding-bottom: 5px; ">&rightarrow;&nbsp; TRIP-BOOK
+              </li>
+            </a>
+            <a href="#" style="text-decoration: none; color:white; font-weight: 500; ">
+              <li style="border-bottom: 1px solid white; padding-bottom: 5px; "> &rightarrow;&nbsp;HOTEL-BOOK
+              </li>
+            </a>
+            <a href="#" style="text-decoration: none; color:white; font-weight: 500; ">
+              <li style="border-bottom: 1px solid white; padding-bottom: 5px; "> &rightarrow;&nbsp;CAR-BOOK
+              </li>
+            </a>
+            <a href="#" style="text-decoration: none; color:white; font-weight: 500; ">
+              <li style="border-bottom: 1px solid white; padding-bottom: 5px; "> &rightarrow;&nbsp;LOGIN</li>
+            </a>
+        </div>
+        <div class="col-sm-3 mt-3">
+          <h5 style=" text-align: center; color: orangered; border-bottom: 2px solid white; padding-bottom: 10px;">
+            DETAILS</h5>
+          <div>
+            <p class="text-center"><i class="fa-solid fa-phone text-light"></i><label
+                style="color: white;">&nbsp;&nbsp;+91-9876543231 &nbsp;||&nbsp;+91-8765453423</label></p>
+            <p class="text-center"><i class="fa-solid fa-envelope text-light"></i><label
+                style="color: white;">&nbsp;abc@gmail.com</label></p>
+            <p class="text-center"><span class="text-light">Address : Ayodhya Uttar Pradesh</span></p>
+            <div class="mb-3 text-center">
+              <span class="m-2 mt-0"><i class="fa-brands fa-facebook fa-2xl text-light"></i></span>
+              <span class="m-2"><i class="fa-brands fa-square-instagram fa-2xl text-light"></i></span>
+              <span class="m-2"><i class="fa-brands fa-square-twitter fa-2xl text-light"></i></span>
+              <span class="m-2"><i class="fa-brands fa-square-x-twitter fa-2xl text-light"></i></span>
+              <span class="m-2"><i class="fa-solid fa-envelope fa-2xl text-light"></i></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="mt-3">
+            <h5 style="text-align: center; color: orangered; border-bottom: 2px solid white; padding-bottom: 10px;">
+              OUR NEWSLETTER</h5>
+            <p class="text-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos ipsa magni
+              dolore modi rerum eligendi
+              facere culpa repellendus voluptates eum in adipisci veritatis molestiae quasi sapiente, quidem
+              totam? Omnis,
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quisquam, eius nam. Modi placeat
+              voluptatibus
+              ullam accusantium maxime deserunt quos sint repudiandae consequuntur delectus! Illo nisi facilis
+              inventore odio error eveniet nihil.</p>
+            <div class="text-center pb-1"><input class="p-1" type="email" style="border: none;"
+                placeholder="enter email" /><button class="p-1"
+                style="border: none; background-color: orangered; color: white;">Subscribe</button></div>
+          </div>
+        </div>
+      </div>
+    </div> <!--end footer-->
+    <div class="row  p-0">
+      <div style="border: 1px solid white;" class="col-sm-12 bg-dark text-light text-center p-3 ">
+        &copy;2018- 2023 Copyright to Kamadgiri Software Solutions Private Limited. All Rights Reserved.
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+  <script>
+    var sli_img = ['Varanasi-ganga Ghat.jpeg', 'bholababa.jpg', 'kedarnath.jpg', 'Uttarakhand.jpeg', 'prem2.jpg','lotus temple.jpg', 'Salong Velly ( Himachal Pradesh).jpeg'];
+    var img_count = 0;
+    function sliderstart() {
+      var obj = document.getElementById('img-slider');
+      obj.src = './images/' + sli_img[img_count];
+      img_count++;
+      if (img_count == sli_img.length) {
+        img_count = 0;
+      }
+      window.setTimeout('sliderstart()', 3000);
+    }
+  </script>
+</body>
+
+</html>
